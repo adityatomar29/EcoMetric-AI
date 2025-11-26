@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoMetric - Login / Sign Up</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Carbo Logo">
+      <span>EcoMetric AI</span>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-container" id="authContainer">
+      <!-- Sign Up Form -->
+      <div class="auth-card signup">
+        <h2>Create Your Account</h2>
+        <p class="subtitle">Join EcoMetric to track your carbon footprint in real-time.</p>
+
+        <form class="auth-form" method="POST" action="/auth/">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter your username" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+          </div>
+
+          <button type="submit" name="action" value="signup" class="btn-primary">Sign Up →</button>
+          <p class="switch-text">
+            Already have an account? <span class="switch-link" id="toLogin">Login here</span>
+          </p>
+        </form>
+        {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <p class="msg {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+      </div>
+
+      <!-- Login Form -->
+      <div class="auth-card login">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Login to continue tracking your carbon footprint.</p>
+
+        <form class="auth-form" method="POST" action="/auth/">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter your username" required>
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+          </div>
+
+          <button type="submit" name="action" value="login" class="btn-primary">Login →</button>
+          <p class="switch-text">
+            Don’t have an account? <span class="switch-link" id="toSignup">Sign up here</span>
+          </p>
+        </form>
+        {% for message in messages %}
+        <p class="msg {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const authContainer = document.getElementById('authContainer');
+    const toLogin = document.getElementById('toLogin');
+    const toSignup = document.getElementById('toSignup');
+
+    toLogin.addEventListener('click', () => {
+      authContainer.classList.add('slide-login');
+      authContainer.classList.remove('slide-signup');
+    });
+
+    toSignup.addEventListener('click', () => {
+      authContainer.classList.add('slide-signup');
+      authContainer.classList.remove('slide-login');
+    });
+  </script>
+</body>
+</html>

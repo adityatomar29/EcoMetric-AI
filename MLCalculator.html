@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Carbon Tracker | EcoMetric AI</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: #0b1523;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #101b2c;
+  padding: 1rem 3rem;
+  border-bottom: 1px solid #1e2d46;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #36e3a8;
+  font-size: 1.3rem;
+}
+
+.logo img {
+  width: 26px;
+  height: 26px;
+  filter: brightness(0) saturate(100%) invert(67%) sepia(88%) hue-rotate(92deg);
+}
+
+.logout {
+  margin-left: 20px;
+  color: #a97fff;
+  text-decoration: none;
+}
+
+.nav-links a {
+  color: #b7c8d6;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: #36e3a8; }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 4rem 7%;
+  gap: 2rem;
+}
+
+.content {
+  flex: 1;
+  max-width: 50%;
+}
+.content h1 {
+  font-size: 2.6rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+.content span {
+  color: #47f7b0;
+}
+.content p {
+  color: #a8b4c3;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.form-card {
+  background: #121f33;
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+
+.form-card label {
+  font-weight: 600;
+}
+.form-card input,
+.form-card select {
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: #1a2a41;
+  color: #fff;
+}
+.start {
+  background: #36e3a8;
+  color: #000;
+  border: none;
+  padding: 0.9rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.start:hover { background: #2dd194; }
+
+.dashboard {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+.card {
+  background: #101b2c;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 350px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+.card h3 {
+  font-size: 1.3rem;
+  color: #47f7b0;
+  margin-bottom: 1rem;
+}
+#emissionList {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.entry {
+  background: #182538;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #b7c8d6;
+}
+.entry strong { color: #47f7b0; }
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  color: #a8b4c3;
+  background: #101b2c;
+  border-top: 1px solid #1e2d46;
+}
+
+.fade-element {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.fade-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 992px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .content {
+    max-width: 100%;
+  }
+  .dashboard {
+    justify-content: center;
+    margin-top: 2rem;
+  }
+}
+
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="logo">
+      <span>EcoMetric AI</span>
+      <a href="/" class="logout">Logout</a>
+    </div>
+    <nav class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/calculate">Personal Tracker</a>
+      <a href="/simulate_ml_run">Software/ML Tracker</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- LEFT SIDE -->
+    <section class="content fade-element">
+      <h1>Track Your <span>ML Pipeline Carbon</span> Emissions</h1>
+      <p>Monitor and optimize your machine learning experiments’ environmental footprint in real-time.</p>
+
+      <form id="mlForm" class="form-card">
+        <label>Model Name:</label>
+        <input type="text" id="model_name" name="model_name" placeholder="e.g. BERT Training">
+
+        <label>Training Time (hours):</label>
+        <input type="number" id="training_time" name="training_time" placeholder="e.g. 5">
+
+        <label>Hardware Type:</label>
+        <select id="hardware" name="hardware">
+          <option value="gpu">GPU</option>
+          <option value="cpu">CPU</option>
+          <option value="tpu">TPU</option>
+        </select>
+
+        <label>Energy Consumption (kWh):</label>
+        <input type="number" id="energy" name="energy" placeholder="e.g. 12.5">
+
+        <button type="submit" class="start">Add ML Model →</button>
+      </form>
+    </section>
+
+    <!-- RIGHT SIDE -->
+    <aside class="dashboard fade-element">
+      <div class="card">
+        <h3>ML Carbon Dashboard</h3>
+        <p><strong>Total Emissions:</strong> <span id="totalEmission">0.0</span> kg CO₂</p>
+        <p><strong>Average per Run:</strong> <span id="avgEmission">0.0</span> kg CO₂</p>
+
+        <div id="emissionList"></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 EcoMetricAI — Smart Sustainable Insights.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const fadeElements = document.querySelectorAll(".fade-element");
+  fadeElements.forEach(el => el.classList.add("fade-visible"));
+
+  const form = document.getElementById("mlForm");
+  const totalEmissionEl = document.getElementById("totalEmission");
+  const avgEmissionEl = document.getElementById("avgEmission");
+  const listEl = document.getElementById("emissionList");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const model_name = form.model_name.value;
+    const training_time = parseFloat(form.training_time.value);
+    const hardware = form.hardware.value;
+    const energy = parseFloat(form.energy.value);
+
+    const response = await fetch("/api/add_ml_model/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken(),
+      },
+      body: JSON.stringify({ model_name, training_time, hardware, energy }),
+    });
+
+    const data = await response.json();
+    updateDashboard(data);
+  });
+
+  function updateDashboard(data) {
+    totalEmissionEl.textContent = data.total.toFixed(6);
+    avgEmissionEl.textContent = data.average.toFixed(6);
+
+    listEl.innerHTML = "";
+    data.models.forEach((m) => {
+      const div = document.createElement("div");
+      div.classList.add("entry");
+      div.innerHTML = `<strong>${m.name}</strong><br>${m.emission.toFixed(10)} kg CO₂ | ${m.date}`;
+      listEl.prepend(div);
+    });
+  }
+
+  function getCSRFToken() {
+    const name = "csrftoken=";
+    const cookies = document.cookie.split(";");
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name)) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
+});
+
+  </script>
+</body>
+</html>

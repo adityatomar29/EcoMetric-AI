@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .navbar1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: rgba(15, 25, 40, 0.9);
+  border-bottom: 1px solid #1e2d46;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #4cffc0;
+}
+
+.logo img {
+  width: 26px;
+  height: 26px;
+  filter: brightness(0) saturate(100%) invert(67%) sepia(88%) saturate(334%) hue-rotate(92deg) brightness(101%) contrast(90%);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #b7c8d6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.nav-links a:hover {
+  color: #4cffc0;
+}
+
+.profile .circle {
+  background-color: #2b3c56;
+  color: #fff;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #4cffc0;
+}
+
+ /* Main layout  */
+        .navbar {
+            display: flex;
+            background-color: #1e293b;
+            justify-content: space-around;
+            padding: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: #a3e635;
+            transition: background 0.3s;
+        }
+        .nav-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            background-color: #22c55e;
+            color: #fff;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .form-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .field-desc {
+    font-size: 0.85rem;
+    color: #94a3b8; /* soft gray-blue text */
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background-color: #22c55e;
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #16a34a;
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            background-color: #0f172a;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: opacity 0.8s ease-in-out;
+            text-align: center;
+            color: #a3e635;
+            font-size: 1.2rem;
+        }
+
+        /* Loader animation */
+        .loader {
+            border: 6px solid #1e293b;
+            border-top: 6px solid #22c55e;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        /* --------------------- Footer ------------------------------ */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #a8b4c3;
+  background: rgba(15, 25, 40, 0.9);
+  border-top: 1px solid #1e2d46;
+}
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            /* Tablets */
+            @media (max-width: 992px) { 
+                  .nav-links.active {
+    display: flex;
+    flex-direction: column;
+    background: rgba(15, 25, 40, 0.98);
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 1px solid #1e2d46;
+  }
+
+  .nav-links.active a {
+    padding: 1rem 0;
+    font-size: 1.1rem;
+  }
+}
+    }
+    </style>
+
+</head>
+<body>
+      <header class="navbar1">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Carbo Logo">
+      <span>EcoMetric AI</span>
+      <a href="/" class="btn" style="color: #36d399;">Logout</a>
+    </div>
+    <nav class="nav-links">
+      <a href="/home">Home</a>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="/calculate">Personal Tracker</a>
+      <a href="/simulate_ml_run">Software/ML Tracker</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+    <div class="profile">
+      <div class="circle">F</div>
+    </div>
+    <div class="menu-toggle">&#9776;</div>
+  </header>
+
+    <div class="navbar">
+        <div class="nav-item active" data-target="transportation">Transportation</div>
+        <div class="nav-item" data-target="energy">Energy Use</div>
+        <div class="nav-item" data-target="food">Food Consumption</div>
+        <div class="nav-item" data-target="waste">Waste Management</div>
+        <div class="nav-item" data-target="water">Water Usage</div>
+        <div class="nav-item" data-target="shopping">Shopping & Online Purchases</div>
+    </div>
+
+    <div class="form-container">
+        <form id="carbonForm" method="POST" action="/calculate/">
+            {% csrf_token %}
+
+            <!-- Transportation  -->
+           <div class="form-section active" id="transportation">
+    <h2>Transportation</h2>
+
+    <label>Distance driven by car per week (KM)</label>
+    <input type="number" name="car_distance" min="0" required>
+    <p class="field-desc">Include all personal and family car travel. For example, if you drive 40 km daily for 5 days, enter 200.</p>
+
+    <label>Hours of flight travel per year</label>
+    <input type="number" name="flight_hours" min="0">
+    <p class="field-desc">Add up total hours spent on both domestic and international flights annually.</p>
+
+    <label>Public transport trips per week</label>
+    <input type="number" name="public_trips" min="0">
+    <p class="field-desc">Count all bus, train, and metro trips per week that replace car or bike use.</p>
+</div>
+
+
+            <!-- Energy -->
+            <div class="form-section" id="energy">
+    <h2>Energy Use</h2>
+
+    <label>Electricity used per month (kWh)</label>
+    <input type="number" name="electricity" min="0">
+    <p class="field-desc">You can find this on your electricity bill. 1 kWh is equal to 1000 watts used for one hour.</p>
+
+    <label>Gas usage per month (L)</label>
+    <input type="number" name="gas" min="0">
+    <p class="field-desc">Enter your monthly LPG or piped gas consumption in litres or equivalent units.</p>
+</div>
+
+            <!-- Food -->
+            <div class="form-section" id="food">
+    <h2>Food Consumption</h2>
+
+    <label>Meals with meat per week</label>
+    <input type="number" name="meat_meals" min="0">
+    <p class="field-desc">Count how many meals per week include meat, poultry, or seafood. Plant-based meals don’t count here.</p>
+
+    <label>Locally sourced food percentage (%)</label>
+    <input type="number" name="local_food" min="0" max="100">
+    <p class="field-desc">Estimate what percent of your food is locally produced (within ~200 km of your location).</p>
+</div>
+
+            <!-- Waste -->
+           <div class="form-section" id="waste">
+    <h2>Waste Management</h2>
+
+    <label>Waste produced per week (kg)</label>
+    <input type="number" name="waste_kg" min="0">
+    <p class="field-desc">Estimate the weight of all household waste you generate weekly (food, packaging, etc.).</p>
+
+    <label>Recycling percentage (%)</label>
+    <input type="number" name="recycling" min="0" max="100">
+    <p class="field-desc">What percent of your total waste is recycled (plastic, paper, glass, etc.)?</p>
+</div>
+
+            <!-- Water -->
+            <div class="form-section" id="water">
+    <h2>Water Usage</h2>
+
+    <label>Water used per day (L)</label>
+    <input type="number" name="water_liters" min="0">
+    <p class="field-desc">Estimate total household water use per day — includes drinking, cooking, and cleaning.</p>
+
+    <label>Showers per week</label>
+    <input type="number" name="showers" min="0">
+    <p class="field-desc">Include all showers taken per week by everyone in your household.</p>
+</div>
+
+
+            <!-- Shopping -->
+            <div class="form-section" id="shopping">
+    <h2>Shopping & Online Purchases</h2>
+
+    <label>Online orders per month</label>
+    <input type="number" name="online_orders" min="0">
+    <p class="field-desc">Count all e-commerce orders (Amazon, Flipkart, etc.) including small packages.</p>
+
+    <label>Clothing purchases per month</label>
+    <input type="number" name="clothing" min="0">
+    <p class="field-desc">Include all new clothing or accessories bought monthly, online or offline.</p>
+</div>
+
+
+            <button type="submit">Calculate Footprint</button>
+        </form>
+
+        <div class="loader" id="loader"></div>
+        <div class="result" id="result" {% if total_footprint %}style="display:block; opacity:0;"{% endif %}>
+                {% if total_footprint %}
+                    🌿 Your total carbon footprint is 
+                <strong>{{ total_footprint }} kg CO₂</strong>
+            {% endif %}
+        </div>
+   
+</div>
+
+    <footer class="footer">
+    <p>© 2025 EcoMetricAI. Track • Reduce • Improve.</p>
+  </footer>
+
+    <script>
+// Navigation fade animation logic
+const navItems = document.querySelectorAll('.nav-item');
+const formSections = document.querySelectorAll('.form-section');
+
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const targetId = item.dataset.target;
+        const targetSection = document.getElementById(targetId);
+        const activeSection = document.querySelector('.form-section.active');
+
+        navItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        if (activeSection && activeSection !== targetSection) {
+            activeSection.classList.remove('active');
+            setTimeout(() => {
+                formSections.forEach(f => f.style.display = 'none');
+                targetSection.style.display = 'block';
+                setTimeout(() => targetSection.classList.add('active'), 10);
+            }, 300);
+        } else {
+            formSections.forEach(f => f.style.display = 'none');
+            targetSection.style.display = 'block';
+            targetSection.classList.add('active');
+        }
+    });
+});
+
+// Loader animation + result fade-in
+const form = document.getElementById('carbonForm');
+const loader = document.getElementById('loader');
+const result = document.getElementById('result');
+
+form.addEventListener('submit', () => {
+    loader.style.display = 'block';
+    result.style.display = 'none';
+    form.style.opacity = '0.5';
+});
+
+// Fade-in result after load if available
+window.addEventListener('DOMContentLoaded', () => {
+    const result = document.getElementById('result');
+    const loader = document.getElementById('loader');
+
+    if (result && result.innerText.trim() !== '') {
+        loader.style.display = 'none';
+        result.style.opacity = '0';
+        result.style.display = 'block';
+        setTimeout(() => {
+            result.style.transition = 'opacity 0.8s ease-in-out';
+            result.style.opacity = '1';
+        }, 300);
+    }
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - EcoMetricAI</title>
+  <link rel="stylesheet" href="{% static 'css/landing.css'%}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Carbo Logo">
+      <span>EcoMetric AI</span>
+    </div>
+  </header>
+
+  <main class="landing-container">
+    <div class="quote-card fade-in">
+      <h1>“The greatest threat to our planet is the belief that someone else will save it.”</h1>
+      <p class="author">— Robert Swan</p>
+      <div class="btn-group">
+        <a href="/auth" class="btn-primary">Login</a>
+        <a href="/auth" class="btn-outline">Sign Up</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 EcoMetricAI. Track • Reduce • Improve.</p>
+  </footer>
+  
+
+  <script>
+  // Select both buttons
+  const buttons = document.querySelectorAll('.btn-primary, .btn-outline');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent instant navigation
+      document.body.classList.add('fade-out');
+      
+      // Redirect after animation finishes (600ms)
+      setTimeout(() => {
+        window.location.href = this.getAttribute('href');
+      }, 600);
+    });
+  });
+</script>
+</body>
+</html>
